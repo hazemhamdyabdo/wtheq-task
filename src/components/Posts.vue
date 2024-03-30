@@ -8,7 +8,9 @@ import {
   post as createPosts,
 } from "../apis/posts";
 import PostModal from "./PostModal.vue";
-const posts = ref<any>([]);
+import type { Posts, Post } from "../types/post";
+
+const posts = ref<Posts>([]);
 const dialogState = ref<boolean>(false);
 const selectedPost = ref<any>([]);
 const isShowMode = ref<boolean>(false);
@@ -16,7 +18,7 @@ const isShowMode = ref<boolean>(false);
 // get all posts
 const getAllPosts = async (): Promise<void> => {
   try {
-    const { data }: any = await getPosts();
+    const { data } = await getPosts();
     posts.value = data;
   } catch (error) {
     // toast error
@@ -31,7 +33,7 @@ const handleDelete = async (id: number) => {
     // Important: resource will not be really updated on the server but it will be faked as if.
     await deletePost(id);
     // Fake update after deletion
-    posts.value = posts.value.filter((post: any) => post.id !== id);
+    posts.value = posts.value.filter((post: Post) => post.id !== id);
   } catch (error) {
     // toast error
   }
@@ -78,7 +80,7 @@ const createPost = async (newPost: any) => {
   const { data } = await createPosts(newPost);
   controlModal(false);
   isShowMode.value = false;
-  posts.value = [...posts.value, data];
+  posts.value = [...posts.value, data] as Posts;
 };
 const addPost = async () => {
   selectedPost.value = {};

@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
-interface Post {
-  title: string;
-  body: string;
-  id: number;
-  userId?: number;
-}
+import type { Post } from "../types/post";
+
 type Props = {
   post: [Post];
   text?: string;
@@ -14,7 +10,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   text: "Edit",
 });
-const isShowCall = ref(false);
+const isShowCall = ref<boolean>(false);
 
 watch(
   () => props.isShowMode,
